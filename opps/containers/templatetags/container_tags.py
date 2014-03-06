@@ -112,6 +112,7 @@ def load_boxes(context, slugs=None, **filters):
 def get_containerbox(context, slug, template_name=None, **extra_context):
 
     request = context['request']
+    channel = context['channel']
     current_site = getattr(
         request,
         'site',
@@ -119,11 +120,12 @@ def get_containerbox(context, slug, template_name=None, **extra_context):
     )
     is_mobile = getattr(request, 'is_mobile', False)
 
-    cachekey = "ContainerBox-{}-{}-{}-{}".format(
+    cachekey = "ContainerBox-{}-{}-{}-{}-{}".format(
         slug,
         template_name,
         is_mobile,
-        current_site.id
+        current_site.id,
+        channel.long_slug
     )
 
     render = cache.get(cachekey)
